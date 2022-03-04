@@ -32,6 +32,9 @@ export default {
   data() {
     return {
       current: '',
+      operator: null,
+      previous: null,
+      operatorClicked: false
     }
   },
   methods: {
@@ -46,12 +49,44 @@ export default {
       this.current = `${parseFloat(this.current) / 100}`;
     },
     append(number) {
+      if (this.operatorClicked) {
+        this.current = '';
+        this.operatorClicked = false;}
       this.current = `${this.current}` + `${number}`
     },
     dot() {
       if (this.current.indexOf('.') === -1) {
       this.append('.')}
-    }
+    },
+    setPrevious() {
+    this.previous = this.current;
+    this.operatorClicked = true;
+  },
+    divide() {
+      this.operator = (a,b) => a / b;
+      this.previous = this.current;
+      this.operatorClicked = true;
+    },
+    times() {
+      this.operator = (a,b) => a * b;
+      this.previous = this.current;
+      this.operatorClicked = true;
+    },
+    minus() {
+      this.operator = (a,b) => a - b;
+      this.previous = this.current;
+      this.operatorClicked = true;
+    },
+    add() {
+      this.operator = (a,b) => a + b;
+      this.previous = this.current;
+      this.operatorClicked = true;
+    },
+    equal() {
+      this.current = `${this.operator( parseFloat(this.current), parseFloat(this.previous))}
+    `;
+    this.previous = null;
+    } 
   }
 };
 </script>
